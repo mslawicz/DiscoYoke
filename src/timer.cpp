@@ -26,7 +26,7 @@ void Timer::config(void)
     __HAL_DBGMCU_FREEZE_TIM5();
     __TIM5_CLK_ENABLE();
     Timer::hTim.Instance = TIM5;
-    Timer::hTim.Init.Prescaler = 83;
+    Timer::hTim.Init.Prescaler = 95;
     Timer::hTim.Init.CounterMode = TIM_COUNTERMODE_UP;
     Timer::hTim.Init.Period = 0xFFFFFFFF;
     Timer::hTim.Init.ClockDivision = TIM_CLOCKDIVISION_DIV1;
