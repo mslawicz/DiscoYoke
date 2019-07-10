@@ -1,6 +1,6 @@
 /**
   ******************************************************************************
-  * @file    usbd_conf_template.h
+  * @file    usbd_conf.h
   * @author  MCD Application Team
   * @brief   Header file for the usbd_conf_template.c file
   ******************************************************************************
@@ -18,15 +18,15 @@
   */
 
 /* Define to prevent recursive inclusion -------------------------------------*/
-#ifndef __USBD_CONF_TEMPLATE_H
-#define __USBD_CONF_TEMPLATE_H
+#ifndef __USBD_CONF_H
+#define __USBD_CONF_H
 
 #ifdef __cplusplus
  extern "C" {
 #endif
 
 /* Includes ------------------------------------------------------------------*/
-#include "stm32fxxx.h"  /* replace 'stm32xxx' with your HAL driver header filename, ex: stm32f4xx.h */
+#include "stm32f4xx.h"  /* replace 'stm32xxx' with your HAL driver header filename, ex: stm32f4xx.h */
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>

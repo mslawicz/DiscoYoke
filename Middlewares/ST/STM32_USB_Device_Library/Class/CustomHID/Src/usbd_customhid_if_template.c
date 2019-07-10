@@ -35,6 +35,10 @@ static int8_t TEMPLATE_CUSTOM_HID_Init     (void);
 static int8_t TEMPLATE_CUSTOM_HID_DeInit   (void);
 static int8_t TEMPLATE_CUSTOM_HID_OutEvent (uint8_t event_idx, uint8_t state);
 /* Private variables ---------------------------------------------------------*/
+
+//XXX MS define lacking macros
+#define TEMPLATE_CUSTOM_HID_ReportDesc 0
+
 USBD_CUSTOM_HID_ItfTypeDef USBD_CustomHID_template_fops =
 {
   TEMPLATE_CUSTOM_HID_ReportDesc,
