@@ -8,14 +8,14 @@
 
 #include "system.h"
 #include "timer.h"
-#include "display.h"
+//#include "display.h"
 #include "stm32f4xx_hal.h"
 #include "stm32f411e_discovery.h"
 
 System::System() :
-    testPin(GPIOB, GPIO_PIN_7, GPIO_MODE_OUTPUT_PP),
-    systemLED(LED2_GPIO_PORT, LED2_PIN, GPIO_MODE_OUTPUT_PP),
-    systemPushbutton(USER_BUTTON_GPIO_PORT, USER_BUTTON_PIN, GPIO_MODE_INPUT, GPIO_PULLUP)
+    testPin(TEST_PORT, TEST_PIN, GPIO_MODE_OUTPUT_PP),
+    systemLED(LED4_GPIO_PORT, LED4_PIN, GPIO_MODE_OUTPUT_PP),   //green LED
+    systemPushbutton(KEY_BUTTON_GPIO_PORT, KEY_BUTTON_PIN, GPIO_MODE_INPUT, GPIO_PULLUP)
 
 {
     /* Reset of all peripherals, Initializes the Flash interface and the Systick. */
@@ -30,9 +30,9 @@ System::System() :
     /* Configure the system clock */
     configClock();
 
-    pSpi3 = nullptr;
-    pConsole = nullptr;
-    pDisplay = nullptr;
+    //pSpi3 = nullptr;
+    //pConsole = nullptr;
+    //pDisplay = nullptr;
 }
 
 System::~System()
@@ -118,7 +118,7 @@ void System::terminate(void)
 /*
  * blinks the system LED in 1 second interval
  */
-void System::blinkLED(void)
+void System::blinkSystemLED(void)
 {
     static Timer ledTimer;
     if(ledTimer.elapsed(500000))
