@@ -25,7 +25,7 @@ int main(void)
     // main loop
     while(1)
     {
-//        System::getInstance().blinkLED();
+        System::getInstance().blinkSystemLED();
 
 //        System::getInstance().getConsole()->handler();
 //        System::getInstance().getDisplay()->test();
