@@ -9,7 +9,7 @@
 #define SYSTEM_H_
 
 #include "gpio.h"
-//#include "console.h"
+#include "console.h"
 //#include "display.h"
 
 #define TEST_PORT   GPIOA
@@ -24,7 +24,7 @@ public:
     void config(void);
     void terminate(void);
     void blinkSystemLED(void);
-//    Console* getConsole(void) const { return pConsole; }
+    Console* getConsole(void) const { return pConsole; }
 //    Display* getDisplay(void) const { return pDisplay; }
     GPIO testPin;
 private:
@@ -32,7 +32,7 @@ private:
     void configClock(void);
     GPIO systemLED;
     GPIO systemPushbutton;
-//    Console* pConsole;
+    Console* pConsole;
 //    Display* pDisplay;
 //    SpiBus* pSpi3;
 };

@@ -83,7 +83,6 @@ void HAL_UART_TxCpltCallback(UART_HandleTypeDef *huart)
 {
     if(huart->Instance == USART2)
     {
-        //System::getInstance().getConsole()->getInterface().clearBusyFlag();
         UART::pUSART2->clearBusyFlag();
     }
 }
