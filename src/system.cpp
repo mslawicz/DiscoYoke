@@ -12,6 +12,8 @@
 #include "stm32f4xx_hal.h"
 #include "stm32f411e_discovery.h"
 
+#define USE_HSE_OSCILLATOR  0
+
 System::System() :
     testPin(TEST_PORT, TEST_PIN, GPIO_MODE_OUTPUT_PP),
     systemLED(LED4_GPIO_PORT, LED4_PIN, GPIO_MODE_OUTPUT_PP),   //green LED
@@ -58,48 +60,37 @@ void System::configClock(void)
     /** Configure the main internal regulator output voltage
     */
     __HAL_RCC_PWR_CLK_ENABLE();
-    //__HAL_RCC_SYSCFG_CLK_ENABLE();
-    __HAL_PWR_VOLTAGESCALING_CONFIG(PWR_REGULATOR_VOLTAGE_SCALE1);
+    __HAL_PWR_VOLTAGESCALING_CONFIG(PWR_REGULATOR_VOLTAGE_SCALE2);
 
-    /* -1- Select HSI as system clock source to allow modification of the PLL configuration */
-//    RCC_ClkInitStruct.ClockType = RCC_CLOCKTYPE_SYSCLK;
-//    RCC_ClkInitStruct.SYSCLKSource = RCC_SYSCLKSOURCE_HSI;
-//    if(HAL_RCC_ClockConfig(&RCC_ClkInitStruct, FLASH_LATENCY_1) != HAL_OK)
-//    {
-//    /* Initialization Error */
-//      errorHandler();
-//    }
-    /* -2- Enable HSE Oscillator, select it as PLL source and finally activate the PLL */
+#if(USE_HSE_OSCILLATOR)
+    //Enable HSE Oscillator
     RCC_OscInitStruct.OscillatorType = RCC_OSCILLATORTYPE_HSE;
-    RCC_OscInitStruct.HSEState = RCC_HSE_ON;
+    RCC_OscInitStruct.HSEState = RCC_HSE_BYPASS;
     RCC_OscInitStruct.PLL.PLLState = RCC_PLL_ON;
     RCC_OscInitStruct.PLL.PLLSource = RCC_PLLSOURCE_HSE;
     RCC_OscInitStruct.PLL.PLLM = 4;
-    RCC_OscInitStruct.PLL.PLLN = 96;
-    RCC_OscInitStruct.PLL.PLLP = RCC_PLLP_DIV2;
-    RCC_OscInitStruct.PLL.PLLQ = 4;
+    RCC_OscInitStruct.PLL.PLLN = 192;
+    RCC_OscInitStruct.PLL.PLLP = RCC_PLLP_DIV4;
+    RCC_OscInitStruct.PLL.PLLQ = 8;
+#else
+    //Enable HSI Oscillator
+    RCC_OscInitStruct.OscillatorType = RCC_OSCILLATORTYPE_HSI;
+    RCC_OscInitStruct.HSIState = RCC_HSI_ON;
+    RCC_OscInitStruct.HSICalibrationValue = RCC_HSICALIBRATION_DEFAULT;
+    RCC_OscInitStruct.PLL.PLLState = RCC_PLL_ON;
+    RCC_OscInitStruct.PLL.PLLSource = RCC_PLLSOURCE_HSI;
+    RCC_OscInitStruct.PLL.PLLM = 8;
+    RCC_OscInitStruct.PLL.PLLN = 192;
+    RCC_OscInitStruct.PLL.PLLP = RCC_PLLP_DIV4;
+    RCC_OscInitStruct.PLL.PLLQ = 8;
+#endif
+
     if (HAL_RCC_OscConfig(&RCC_OscInitStruct) != HAL_OK)
     {
       errorHandler();
     }
-
-//    RCC_OscInitStruct.OscillatorType = RCC_OSCILLATORTYPE_HSI;
-//    RCC_OscInitStruct.HSIState = RCC_HSI_ON;
-//    RCC_OscInitStruct.HSICalibrationValue = RCC_HSICALIBRATION_DEFAULT;
-//    RCC_OscInitStruct.PLL.PLLState = RCC_PLL_ON;
-//    RCC_OscInitStruct.PLL.PLLSource = RCC_PLLSOURCE_HSI;
-//    RCC_OscInitStruct.PLL.PLLM = 8;
-//    RCC_OscInitStruct.PLL.PLLN = 192;
-//    RCC_OscInitStruct.PLL.PLLP = RCC_PLLP_DIV4;
-//    RCC_OscInitStruct.PLL.PLLQ = 8;
-//    if (HAL_RCC_OscConfig(&RCC_OscInitStruct) != HAL_OK)
-//    {
-//      errorHandler();
-//    }
-
-    /* -3- Select the PLL as system clock source and configure the HCLK, PCLK1 and PCLK2 clocks dividers */
-    RCC_ClkInitStruct.ClockType = RCC_CLOCKTYPE_HCLK|RCC_CLOCKTYPE_SYSCLK
-                                |RCC_CLOCKTYPE_PCLK1|RCC_CLOCKTYPE_PCLK2;
+    //Select the PLL as system clock source and configure the HCLK, PCLK1 and PCLK2 clocks dividers
+    RCC_ClkInitStruct.ClockType = RCC_CLOCKTYPE_HCLK|RCC_CLOCKTYPE_SYSCLK|RCC_CLOCKTYPE_PCLK1|RCC_CLOCKTYPE_PCLK2;
     RCC_ClkInitStruct.SYSCLKSource = RCC_SYSCLKSOURCE_PLLCLK;
     RCC_ClkInitStruct.AHBCLKDivider = RCC_SYSCLK_DIV1;
     RCC_ClkInitStruct.APB1CLKDivider = RCC_HCLK_DIV2;
@@ -108,9 +99,8 @@ void System::configClock(void)
     {
         errorHandler();
     }
-    HAL_RCC_EnableCSS();
     GPIO(GPIOA, GPIO_PIN_8, GPIO_MODE_OUTPUT_PP, GPIO_SPEED_FREQ_VERY_HIGH, GPIO_AF0_MCO);
-    HAL_RCC_MCOConfig(RCC_MCO1, RCC_MCO1SOURCE_HSE, RCC_MCODIV_4);
+    HAL_RCC_MCOConfig(RCC_MCO1, RCC_MCO1SOURCE_HSI, RCC_MCODIV_4);
 }
 
 /*
@@ -142,7 +132,7 @@ void System::terminate(void)
 void System::blinkSystemLED(void)
 {
     static Timer ledTimer;
-    if(ledTimer.elapsed(100000))
+    if(ledTimer.elapsed(500000))
     {
         ledTimer.reset();
         systemLED.toggle();
