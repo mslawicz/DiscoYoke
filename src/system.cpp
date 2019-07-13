@@ -17,6 +17,7 @@
 System::System() :
     testPin(TEST_PORT, TEST_PIN, GPIO_MODE_OUTPUT_PP),
     systemLED(LED4_GPIO_PORT, LED4_PIN, GPIO_MODE_OUTPUT_PP),   //green LED
+    errorLED(LED5_GPIO_PORT, LED5_PIN, GPIO_MODE_OUTPUT_PP),   //red LED
     systemPushbutton(KEY_BUTTON_GPIO_PORT, KEY_BUTTON_PIN, GPIO_MODE_INPUT, GPIO_PULLUP)
 
 {
@@ -108,6 +109,7 @@ void System::configClock(void)
  */
 void System::config(void)
 {
+    errorLED.write(GPIO_PinState::GPIO_PIN_RESET);
     Timer::config();
     pConsole = new Console;
     pConsole->sendMessage(Severity::Info,LogChannel::LC_SYSTEM, "Discovery Yoke program start");

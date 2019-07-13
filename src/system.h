@@ -20,7 +20,7 @@ class System
 public:
     ~System();
     static System& getInstance(void);
-    void errorHandler(void) {};
+    void errorHandler(void) { errorLED.write(GPIO_PinState::GPIO_PIN_SET); };
     void config(void);
     void terminate(void);
     void blinkSystemLED(void);
@@ -31,6 +31,7 @@ private:
     System();
     void configClock(void);
     GPIO systemLED;
+    GPIO errorLED;
     GPIO systemPushbutton;
     Console* pConsole;
 //    Display* pDisplay;
