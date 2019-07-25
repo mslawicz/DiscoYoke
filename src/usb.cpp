@@ -26,7 +26,13 @@ Device::~Device()
  */
 void Device::handler(void)
 {
-
+    switch(state)
+    {
+    case USBDS_start:
+        break;
+    default:
+        break;
+    }
 }
 
 } /* namespace USB */
