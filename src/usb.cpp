@@ -32,7 +32,9 @@ Device::~Device()
  */
 void Device::handler(void)
 {
-    USBD_StatusTypeDef status;
+    USBD_StatusTypeDef usbdStatus;
+    HAL_StatusTypeDef halStatus;
+
     switch(state)
     {
     case USBDS_begin:
@@ -40,43 +42,67 @@ void Device::handler(void)
         state = USBDS_init;
         break;
     case USBDS_init:
-        status = USBD_Init(&deviceHandle, &HID_Desc, 0);
-        if(status == USBD_OK)
+        usbdStatus = USBD_Init(&deviceHandle, &HID_Desc, 0);
+        if(usbdStatus == USBD_OK)
         {
             System::getInstance().getConsole()->sendMessage(Severity::Info,LogChannel::LC_USB, "USB Device initialized");
             state = USBDS_register_class;
         }
         else
         {
-            System::getInstance().getConsole()->sendMessage(Severity::Error,LogChannel::LC_USB, "USB Device initialization failed, code=" + Console::toHex(status));
+            System::getInstance().getConsole()->sendMessage(Severity::Error,LogChannel::LC_USB, "USB Device initialization failed, code=" + Console::toHex(usbdStatus));
             state = USBDS_wait_after_error;
         }
         break;
     case USBDS_wait_after_error:
         break;
     case USBDS_register_class:
-        status = USBD_RegisterClass(&deviceHandle, USBD_HID_CLASS);
-        if(status == USBD_OK)
+        usbdStatus = USBD_RegisterClass(&deviceHandle, USBD_HID_CLASS);
+        if(usbdStatus == USBD_OK)
         {
             System::getInstance().getConsole()->sendMessage(Severity::Info,LogChannel::LC_USB, "USB HID class registered");
             state = USBDS_start;
         }
         else
         {
-            System::getInstance().getConsole()->sendMessage(Severity::Error,LogChannel::LC_USB, "USB HID class initialization failed, code=" + Console::toHex(status));
+            System::getInstance().getConsole()->sendMessage(Severity::Error,LogChannel::LC_USB, "USB HID class initialization failed, code=" + Console::toHex(usbdStatus));
             state = USBDS_wait_after_error;
         }
         break;
     case USBDS_start:
-        status = USBD_Start(&deviceHandle);
-        if(status == USBD_OK)
+        usbdStatus = USBD_Start(&deviceHandle);
+        if(usbdStatus == USBD_OK)
         {
             System::getInstance().getConsole()->sendMessage(Severity::Info,LogChannel::LC_USB, "USB device started");
+            state = USBDS_PCD_init;
+        }
+        else
+        {
+            System::getInstance().getConsole()->sendMessage(Severity::Error,LogChannel::LC_USB, "USB device not started, code=" + Console::toHex(usbdStatus));
+            state = USBDS_wait_after_error;
+        }
+        break;
+    case USBDS_PCD_init:
+        pcdHandle.Instance = USB_OTG_FS;
+        pcdHandle.Init.dev_endpoints = 5;
+        pcdHandle.Init.speed = PCD_SPEED_FULL;
+        pcdHandle.Init.dma_enable = DISABLE;
+        pcdHandle.Init.ep0_mps = DEP0CTL_MPS_64;
+        pcdHandle.Init.phy_itface = PCD_PHY_EMBEDDED;
+        pcdHandle.Init.Sof_enable = DISABLE;
+        pcdHandle.Init.low_power_enable = DISABLE;
+        pcdHandle.Init.lpm_enable = DISABLE;
+        pcdHandle.Init.vbus_sensing_enable = DISABLE;
+        pcdHandle.Init.use_dedicated_ep1 = DISABLE;
+        halStatus = HAL_PCD_Init(&pcdHandle);
+        if(halStatus == HAL_OK)
+        {
+            System::getInstance().getConsole()->sendMessage(Severity::Info,LogChannel::LC_USB, "PCD initialized");
             state = USBDS_PCD_msp_init;
         }
         else
         {
-            System::getInstance().getConsole()->sendMessage(Severity::Error,LogChannel::LC_USB, "USB device not started, code=" + Console::toHex(status));
+            System::getInstance().getConsole()->sendMessage(Severity::Error,LogChannel::LC_USB, "PCD initialization failed, code=" + Console::toHex(halStatus));
             state = USBDS_wait_after_error;
         }
         break;
