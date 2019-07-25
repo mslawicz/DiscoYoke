@@ -11,6 +11,7 @@
 /* Includes ------------------------------------------------------------------*/
 
 #include "uart.h"
+#include "usb.h"
 #include "stm32f4xx_hal.h"
 #include "stm32f4xx.h"
 #include "stm32f4xx_it.h"
@@ -118,4 +119,14 @@ void SysTick_Handler(void)
 void USART2_IRQHandler(void)
 {
     HAL_UART_IRQHandler(UART::pUSART2->getUartHandle());
+}
+
+/**
+  * @brief  This function handles USB-On-The-Go FS global interrupt request.
+  * @param  None
+  * @retval None
+  */
+void OTG_FS_IRQHandler(void)
+{
+  HAL_PCD_IRQHandler(USB::Device::pUsbDevice->getPcdHandle());
 }

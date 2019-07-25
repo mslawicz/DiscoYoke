@@ -14,6 +14,8 @@
 namespace USB
 {
 
+Device* Device::pUsbDevice = nullptr;
+
 Device::Device()
 {
     state = DeviceState::USBDS_begin;
@@ -38,7 +40,7 @@ void Device::handler(void)
         state = USBDS_init;
         break;
     case USBDS_init:
-        status = USBD_Init(&handle, &HID_Desc, 0);
+        status = USBD_Init(&deviceHandle, &HID_Desc, 0);
         if(status == USBD_OK)
         {
             System::getInstance().getConsole()->sendMessage(Severity::Info,LogChannel::LC_USB, "USB Device initialized");
@@ -53,7 +55,7 @@ void Device::handler(void)
     case USBDS_wait_after_error:
         break;
     case USBDS_register_class:
-        status = USBD_RegisterClass(&handle, USBD_HID_CLASS);
+        status = USBD_RegisterClass(&deviceHandle, USBD_HID_CLASS);
         if(status == USBD_OK)
         {
             System::getInstance().getConsole()->sendMessage(Severity::Info,LogChannel::LC_USB, "USB HID class registered");
@@ -66,7 +68,7 @@ void Device::handler(void)
         }
         break;
     case USBDS_start:
-        status = USBD_Start(&handle);
+        status = USBD_Start(&deviceHandle);
         if(status == USBD_OK)
         {
             System::getInstance().getConsole()->sendMessage(Severity::Info,LogChannel::LC_USB, "USB device started");
@@ -87,6 +89,7 @@ void Device::handler(void)
         GPIO(GPIOA, GPIO_PIN_9, GPIO_MODE_INPUT, GPIO_NOPULL, GPIO_SPEED_FREQ_VERY_HIGH, GPIO_AF10_OTG_FS);
         // Enable USB FS Clock
         __HAL_RCC_USB_OTG_FS_CLK_ENABLE();
+        pUsbDevice = this;
         // Set USBFS Interrupt priority
         HAL_NVIC_SetPriority(OTG_FS_IRQn, 2, 1);
         // Enable USBFS Interrupt
