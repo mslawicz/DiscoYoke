@@ -20,6 +20,7 @@ enum DeviceState
     USBDS_wait_after_error,
     USBDS_register_class,
     USBDS_start,
+    USBDS_PCD_msp_init,
     USBDS_ready
 };
 

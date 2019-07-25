@@ -6,6 +6,7 @@
  */
 
 #include "system.h"
+#include "gpio.h"
 #include "usb.h"
 #include "usbd_desc.h"
 #include "usbd_hid.h"
@@ -69,13 +70,28 @@ void Device::handler(void)
         if(status == USBD_OK)
         {
             System::getInstance().getConsole()->sendMessage(Severity::Info,LogChannel::LC_USB, "USB device started");
-            state = USBDS_ready;
+            state = USBDS_PCD_msp_init;
         }
         else
         {
             System::getInstance().getConsole()->sendMessage(Severity::Error,LogChannel::LC_USB, "USB device not started, code=" + Console::toHex(status));
             state = USBDS_wait_after_error;
         }
+        break;
+    case USBDS_PCD_msp_init:
+        // pin OTG_FS DM
+        GPIO(GPIOA, GPIO_PIN_11, GPIO_MODE_AF_PP, GPIO_NOPULL, GPIO_SPEED_FREQ_VERY_HIGH, GPIO_AF10_OTG_FS);
+        // pin OTG_FS DP
+        GPIO(GPIOA, GPIO_PIN_12, GPIO_MODE_AF_PP, GPIO_NOPULL, GPIO_SPEED_FREQ_VERY_HIGH, GPIO_AF10_OTG_FS);
+        // pin VBUS_FS
+        GPIO(GPIOA, GPIO_PIN_9, GPIO_MODE_INPUT, GPIO_NOPULL, GPIO_SPEED_FREQ_VERY_HIGH, GPIO_AF10_OTG_FS);
+        // Enable USB FS Clock
+        __HAL_RCC_USB_OTG_FS_CLK_ENABLE();
+        // Set USBFS Interrupt priority
+        HAL_NVIC_SetPriority(OTG_FS_IRQn, 2, 1);
+        // Enable USBFS Interrupt
+        HAL_NVIC_EnableIRQ(OTG_FS_IRQn);
+        state = USBDS_ready;
         break;
     case USBDS_ready:
         break;
