@@ -19,7 +19,8 @@ enum DeviceState
     USBDS_init,
     USBDS_wait_after_error,
     USBDS_register_class,
-    USBDS_start
+    USBDS_start,
+    USBDS_ready
 };
 
 class Device

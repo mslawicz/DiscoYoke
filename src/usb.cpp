@@ -65,6 +65,19 @@ void Device::handler(void)
         }
         break;
     case USBDS_start:
+        status = USBD_Start(&handle);
+        if(status == USBD_OK)
+        {
+            System::getInstance().getConsole()->sendMessage(Severity::Info,LogChannel::LC_USB, "USB device started");
+            state = USBDS_ready;
+        }
+        else
+        {
+            System::getInstance().getConsole()->sendMessage(Severity::Error,LogChannel::LC_USB, "USB device not started, code=" + Console::toHex(status));
+            state = USBDS_wait_after_error;
+        }
+        break;
+    case USBDS_ready:
         break;
     default:
         break;
