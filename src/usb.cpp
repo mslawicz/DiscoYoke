@@ -29,6 +29,14 @@ void Device::handler(void)
     switch(state)
     {
     case USBDS_start:
+        // add any necessary condition to start here
+        state = USBDS_init;
+        break;
+    case USBDS_init:
+        USBD_Init(&handle, &descriptors, 0);
+        state = USBDS_register_class;
+        break;
+    case USBDS_register_class:
         break;
     default:
         break;
