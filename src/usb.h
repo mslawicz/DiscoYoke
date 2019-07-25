@@ -17,6 +17,7 @@ enum DeviceState
 {
     USBDS_start,
     USBDS_init,
+    USBDS_wait_after_error,
     USBDS_register_class
 };
 

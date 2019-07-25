@@ -13,6 +13,7 @@ const bool Console::IsChannelActive[] = {
         true, //LC_CONSOLE,
         true, //LC_I2C,
         true, //LC_SPI,
+        true, //LC_USB
 };
 
 Console::Console() :
