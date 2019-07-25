@@ -12,13 +12,21 @@ namespace USB
 
 Device::Device()
 {
-    // TODO Auto-generated constructor stub
-
+    state = DeviceState::USBDS_start;
 }
 
 Device::~Device()
 {
     // TODO Auto-generated destructor stub
+}
+
+/*
+ * USB device handler
+ * to be called periodically in a loop
+ */
+void Device::handler(void)
+{
+
 }
 
 } /* namespace USB */

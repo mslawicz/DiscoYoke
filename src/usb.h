@@ -11,11 +11,19 @@
 namespace USB
 {
 
+enum DeviceState
+{
+    USBDS_start
+};
+
 class Device
 {
 public:
     Device();
     ~Device();
+    void handler(void);
+private:
+    DeviceState state;
 };
 
 } /* namespace USB */

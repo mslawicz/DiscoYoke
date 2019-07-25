@@ -10,6 +10,7 @@
 
 #include "gpio.h"
 #include "console.h"
+#include "usb.h"
 //#include "display.h"
 
 #define TEST_PORT   GPIOA
@@ -25,6 +26,7 @@ public:
     void terminate(void);
     void blinkSystemLED(void);
     Console* getConsole(void) const { return pConsole; }
+    USB::Device* getHID(void) const { return pHID; }
 //    Display* getDisplay(void) const { return pDisplay; }
     GPIO testPin;
 private:
@@ -34,6 +36,7 @@ private:
     GPIO errorLED;
     GPIO systemPushbutton;
     Console* pConsole;
+    USB::Device* pHID;
 //    Display* pDisplay;
 //    SpiBus* pSpi3;
 };
