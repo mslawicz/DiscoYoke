@@ -34,7 +34,7 @@
 
 /* Exported macro ------------------------------------------------------------*/
 /* Exported functions ------------------------------------------------------- */
-//XXX MS: extern USBD_DescriptorsTypeDef XXX_Desc; /* Replace 'XXX_Desc' with your active USB device class, ex: HID_Desc */
+extern USBD_DescriptorsTypeDef HID_Desc; /* Replace 'XXX_Desc' with your active USB device class, ex: HID_Desc */
 
 #endif /* __USBD_DESC_TEMPLATE_H*/
 

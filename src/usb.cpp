@@ -6,6 +6,7 @@
  */
 
 #include "usb.h"
+#include "usbd_desc.h"
 
 namespace USB
 {
@@ -33,7 +34,7 @@ void Device::handler(void)
         state = USBDS_init;
         break;
     case USBDS_init:
-        USBD_Init(&handle, &descriptors, 0);
+        USBD_Init(&handle, &HID_Desc, 0);
         state = USBDS_register_class;
         break;
     case USBDS_register_class:

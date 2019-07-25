@@ -29,7 +29,6 @@ public:
 private:
     DeviceState state;
     USBD_HandleTypeDef handle;  // device handle structure
-    USBD_DescriptorsTypeDef descriptors;    // device descriptors structure
 };
 
 } /* namespace USB */
