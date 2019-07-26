@@ -11,6 +11,10 @@
 #include "usbd_def.h"
 //#include "usbd_core.h"
 
+/* #define for FS and HS identification */
+#define DEVICE_FS   0
+#define DEVICE_HS   1
+
 namespace USB
 {
 

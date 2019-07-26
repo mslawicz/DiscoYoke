@@ -20,7 +20,7 @@ USBD_HandleTypeDef Device::deviceHandle;
 Device::Device()
 {
     USBD_StatusTypeDef usbdStatus;
-    usbdStatus = USBD_Init(&Device::deviceHandle, &HID_Desc, 0);
+    usbdStatus = USBD_Init(&Device::deviceHandle, &HID_Desc, DEVICE_FS);
     if(usbdStatus == USBD_OK)
     {
         System::getInstance().getConsole()->sendMessage(Severity::Info,LogChannel::LC_USB, "USB Device initialized");
