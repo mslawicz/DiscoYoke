@@ -23,11 +23,9 @@ class Device
 public:
     Device();
     ~Device();
-    PCD_HandleTypeDef* getPcdHandle(void) { return &pcdHandle; }
-    static Device* pUsbDevice;
     static USBD_HandleTypeDef deviceHandle;  // device handle structure
+    static PCD_HandleTypeDef pcdHandle; // PCD handle structure
 private:
-    PCD_HandleTypeDef pcdHandle; // PCD handle structure
 };
 
 } /* namespace USB */

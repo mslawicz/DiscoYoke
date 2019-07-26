@@ -128,5 +128,5 @@ void USART2_IRQHandler(void)
   */
 void OTG_FS_IRQHandler(void)
 {
-  HAL_PCD_IRQHandler(USB::Device::pUsbDevice->getPcdHandle());
+  HAL_PCD_IRQHandler(&USB::Device::pcdHandle);
 }

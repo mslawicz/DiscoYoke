@@ -14,8 +14,8 @@
 namespace USB
 {
 
-Device* Device::pUsbDevice = nullptr;
-USBD_HandleTypeDef Device::deviceHandle;
+USBD_HandleTypeDef Device::deviceHandle; // device handle structure
+PCD_HandleTypeDef Device::pcdHandle; // PCD handle structure
 
 Device::Device()
 {
