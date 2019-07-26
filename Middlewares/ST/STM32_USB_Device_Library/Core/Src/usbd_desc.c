@@ -27,7 +27,7 @@
 /* Private typedef -----------------------------------------------------------*/
 /* Private define ------------------------------------------------------------*/
 #define USBD_VID                      0x0483
-#define USBD_PID                      0x5710
+#define USBD_PID                      0x572B
 #define USBD_LANGID_STRING            0x409
 #define USBD_MANUFACTURER_STRING      "Marcin Slawicz"
 #define USBD_PRODUCT_HS_STRING        "HID yoke in HS Mode"

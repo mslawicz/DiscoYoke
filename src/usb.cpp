@@ -8,6 +8,7 @@
 #include "system.h"
 #include "gpio.h"
 #include "usb.h"
+#include "timer.h" //XXX test
 #include "usbd_desc.h"
 #include "usbd_hid.h"
 #include "usbd_conf.h"
@@ -98,5 +99,16 @@ Device::~Device()
 //        HAL_NVIC_EnableIRQ(OTG_FS_IRQn);
 //        state = USBDS_ready;
 
+
+void Device::test(void)
+{
+    static Timer tm;
+    if(tm.elapsed(10000))
+    {
+        tm.reset();
+        uint8_t buffer[4] = {0, 1, 2, 0};
+        USBD_HID_SendReport(&Device::deviceHandle, buffer, 4);
+    }
+}
 
 } /* namespace USB */
