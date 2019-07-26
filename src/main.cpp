@@ -28,7 +28,6 @@ int main(void)
         System::getInstance().blinkSystemLED();
 
         System::getInstance().getConsole()->handler();
-        System::getInstance().getHID()->handler();
 //        System::getInstance().getDisplay()->test();
 //        System::getInstance().getDisplay()->handler();
     }
