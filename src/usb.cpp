@@ -10,12 +10,12 @@
 #include "usb.h"
 #include "usbd_desc.h"
 #include "usbd_hid.h"
+#include "usbd_conf.h"
 
 namespace USB
 {
 
 USBD_HandleTypeDef Device::deviceHandle; // device handle structure
-PCD_HandleTypeDef Device::pcdHandle; // PCD handle structure
 
 Device::Device()
 {

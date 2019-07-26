@@ -20,6 +20,7 @@
 /* Private define ------------------------------------------------------------*/
 /* Private macro -------------------------------------------------------------*/
 /* Private variables ---------------------------------------------------------*/
+extern PCD_HandleTypeDef hpcd_USB_OTG_FS;
 /* Private function prototypes -----------------------------------------------*/
 /* Private functions ---------------------------------------------------------*/
 
@@ -128,5 +129,5 @@ void USART2_IRQHandler(void)
   */
 void OTG_FS_IRQHandler(void)
 {
-  HAL_PCD_IRQHandler(&USB::Device::pcdHandle);
+  HAL_PCD_IRQHandler(&hpcd_USB_OTG_FS);
 }

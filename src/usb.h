@@ -11,10 +11,6 @@
 #include "usbd_def.h"
 //#include "usbd_core.h"
 
-/* #define for FS and HS identification */
-#define DEVICE_FS   0
-#define DEVICE_HS   1
-
 namespace USB
 {
 
@@ -24,7 +20,6 @@ public:
     Device();
     ~Device();
     static USBD_HandleTypeDef deviceHandle;  // device handle structure
-    static PCD_HandleTypeDef pcdHandle; // PCD handle structure
 private:
 };
 
