@@ -175,9 +175,7 @@ USBD_StatusTypeDef  USBD_Start  (USBD_HandleTypeDef *pdev)
 {
 
   /* Start the low level driver  */
-  USBD_LL_Start(pdev);
-
-  return USBD_OK;
+  return USBD_LL_Start(pdev);
 }
 
 /**
