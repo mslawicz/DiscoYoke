@@ -20,6 +20,7 @@ class System
 {
 public:
     ~System();
+    static void configController(void);
     static System& getInstance(void);
     void errorHandler(void) { errorLED.write(GPIO_PinState::GPIO_PIN_SET); };
     void config(void);
@@ -31,7 +32,6 @@ public:
     GPIO testPin;
 private:
     System();
-    void configClock(void);
     GPIO systemLED;
     GPIO errorLED;
     GPIO systemPushbutton;

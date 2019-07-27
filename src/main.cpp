@@ -14,6 +14,9 @@
 
 int main(void)
 {
+    // HAL and clock initialization
+    System::configController();
+    // create system singleton object and initialize hardware
     System::getInstance().config();
 
     // start reception of the first character
