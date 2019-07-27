@@ -109,7 +109,7 @@ void System::config(void)
     errorLED.write(GPIO_PinState::GPIO_PIN_RESET);
     Timer::config();
     pConsole = new Console;
-    pConsole->sendMessage(Severity::Info,LogChannel::LC_SYSTEM, "Discovery Yoke program start");
+    pConsole->sendMessage(Severity::Info,LogChannel::LC_SYSTEM, "Discovery Yoke program started");
     pHID = new USB::Device;
     // SPI3 is used for display
 //    pSpi3 = new SpiBus(SPI3);
