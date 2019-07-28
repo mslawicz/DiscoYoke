@@ -103,11 +103,18 @@ Device::~Device()
 void Device::test(void)
 {
     static Timer tm;
-    if(tm.elapsed(10000))
+    static uint8_t x = 0;
+    static uint8_t y = 0;
+    if(tm.elapsed(10000) && System::getInstance().systemPushbutton.read())
     {
         tm.reset();
-        uint8_t buffer[4] = {0, 1, 2, 0};
+        uint8_t buffer[4] = {0, x, y, 0};
         USBD_HID_SendReport(&Device::deviceHandle, buffer, 4);
+    }
+    if(tm.elapsed(1000000))
+    {
+        x = rand() % 7 - 3;
+        y = rand() % 5 - 2;
     }
 }
 

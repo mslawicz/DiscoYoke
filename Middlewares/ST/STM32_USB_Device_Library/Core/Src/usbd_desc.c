@@ -30,8 +30,8 @@
 #define USBD_PID                      0x572B
 #define USBD_LANGID_STRING            0x409
 #define USBD_MANUFACTURER_STRING      "Marcin Slawicz"
-#define USBD_PRODUCT_HS_STRING        "HID yoke in HS Mode"
-#define USBD_PRODUCT_FS_STRING        "HID yoke in FS Mode"
+#define USBD_PRODUCT_HS_STRING        "Discovery Yoke in HS Mode"
+#define USBD_PRODUCT_FS_STRING        "Discovery Yoke in FS Mode"
 #define USBD_CONFIGURATION_HS_STRING  "HID Config"
 #define USBD_INTERFACE_HS_STRING      "HID Interface"
 #define USBD_CONFIGURATION_FS_STRING  "HID Config"

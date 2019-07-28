@@ -30,11 +30,11 @@ public:
     USB::Device* getHID(void) const { return pHID; }
 //    Display* getDisplay(void) const { return pDisplay; }
     GPIO testPin;
-private:
-    System();
     GPIO systemLED;
     GPIO errorLED;
     GPIO systemPushbutton;
+private:
+    System();
     Console* pConsole;
     USB::Device* pHID;
 //    Display* pDisplay;
